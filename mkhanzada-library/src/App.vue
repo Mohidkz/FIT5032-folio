@@ -1,5 +1,6 @@
 <script setup>
 import JSON from './components/JSON.vue';
+import Form from './components/Form.vue';
 </script>
 
 <template>
@@ -10,9 +11,9 @@ import JSON from './components/JSON.vue';
       <HelloWorld msg="You did it!" />
     </div>
   </header> -->
-
+  <Form />
   <!-- <main> -->
-    <JSON />
+    <!-- <JSON /> -->
   <!-- </main> -->
 </template>
 
