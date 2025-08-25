@@ -1,20 +1,27 @@
 <script setup>
-// This is our JavaScript section.
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
-// "reactive variable" to keep track of which page is currently active.
-// It starts on the 'home' page by default.
+// 1. Import the new page components
+import HomeView from './views/HomeView.vue';
+import LoginView from './views/LoginView.vue';
+import RegisterView from './views/RegisterView.vue';
+import LearnView from './views/LearnView.vue';
+
 const currentPage = ref('home');
 
-// This is a function that changes the currentPage variable.
-// We will call this function when a user clicks a navigation link.
+const activeComponent = computed(() => {
+  if (currentPage.value === 'login') return LoginView;
+  if (currentPage.value === 'register') return RegisterView;
+  if (currentPage.value === 'learn') return LearnView;
+  return HomeView; // Default to HomeView
+});
+
 const navigate = (page) => {
   currentPage.value = page;
 };
 </script>
 
 <template>
-  <!-- BR (A.2) Responsiveness: Bootstrap's navbar classes handle this automatically. -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
       <a class="navbar-brand" href="#" @click.prevent="navigate('home')">MindHaven</a>
@@ -36,9 +43,6 @@ const navigate = (page) => {
   </nav>
 
   <main class="container my-5">
-    <p>Current Page: <strong>{{ currentPage }}</strong></p>
+    <component :is="activeComponent" />
   </main>
 </template>
-
-<style scoped>
-</style>
