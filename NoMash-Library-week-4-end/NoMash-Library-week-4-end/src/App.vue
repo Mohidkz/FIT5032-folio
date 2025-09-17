@@ -1,25 +1,53 @@
 <script setup>
-import BHeader from './components/BHeader.vue'
-import { isAuthenticated } from './auth'
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { auth } from './firebase/init.js';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+
+const router = useRouter();
+const isLoggedIn = ref(false);
+
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    isLoggedIn.value = !!user;
+  });
+});
+
+const handleLogout = () => {
+  signOut(auth).then(() => {
+    console.log("User logged out.");
+    console.log("Current user:", auth.currentUser);
+    router.push('/FireLogin');
+  });
+};
 </script>
 
 <template>
   <header>
-    <BHeader :is-authenticated="isAuthenticated" />
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <router-link class="navbar-brand" to="/">MyApp</router-link>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">Home</router-link>
+            </li>
+            <li class="nav-item" v-if="!isLoggedIn">
+              <router-link class="nav-link" to="/FireRegister">Register</router-link>
+            </li>
+            <li class="nav-item" v-if="!isLoggedIn">
+              <router-link class="nav-link" to="/FireLogin">Sign In</router-link>
+            </li>
+          </ul>
+          <button class="btn btn-outline-danger" v-if="isLoggedIn" @click="handleLogout">Logout</button>
+        </div>
+      </div>
+    </nav>
   </header>
-
-  <main class="container mt-5">
-    <router-view></router-view>
+  
+  <main class="container mt-4">
+    <router-view />
   </main>
 </template>
 
-<style>
-/* Global styles for a consistent look and feel */
-.container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 80vw;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 10px;
-}
-</style>
+
