@@ -41,6 +41,9 @@ const handleLogout = () => {
             <li class="nav-item" v-if="isLoggedIn">
               <router-link class="nav-link" to="/AddBook">Add Book</router-link>
             </li>
+            <li class="nav-item" v-if="isLoggedIn">
+              <router-link class="nav-link" to="/AdvancedQuery">Advanced Query</router-link>
+            </li>
           </ul>
           <button class="btn btn-outline-danger" v-if="isLoggedIn" @click="handleLogout">Logout</button>
         </div>
