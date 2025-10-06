@@ -53,6 +53,12 @@ const routes = [
     name: 'AdvancedQuery',
     component: AdvancedQueryView
   }
+  ,
+  {
+    path: '/GetBookCount',
+    name: 'GetBookCount',
+    component: AdvancedQueryView
+  }
 ]
 
 const router = createRouter({
