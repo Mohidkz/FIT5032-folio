@@ -10,8 +10,10 @@ const getBookCount = async () => {
   count.value = null;
 
   try {
-    const functionUrl = 'https://YOUR_REGION-YOUR_PROJECT_ID.cloudfunctions.net/countBooks';
+    const functionUrl = 'https://countbooks-u4xnpypv2q-uc.a.run.app';
+
     const response = await axios.get(functionUrl);
+
     count.value = response.data.count;
 
   } catch (err) {
@@ -30,7 +32,9 @@ const getBookCount = async () => {
 
     <div class="mt-4 p-3 border rounded bg-light">
       <p v-if="count !== null" class="h4">Total number of books: {{ count }}</p>
+
       <p v-if="error" class="h4 text-danger">{{ error }}</p>
     </div>
   </div>
 </template>
+

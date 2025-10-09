@@ -3,20 +3,22 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { auth } from './firebase/init.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import BHeader from './components/BHeader.vue'; // 1. Import the header component
 
 const router = useRouter();
 const isLoggedIn = ref(false);
 
+// This listener checks the user's auth state when the app loads and whenever it changes
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
-    isLoggedIn.value = !!user;
+    isLoggedIn.value = !!user; // Sets to true if user exists, false otherwise
   });
 });
 
+// This function handles the logout logic
 const handleLogout = () => {
   signOut(auth).then(() => {
     console.log("User logged out.");
-    console.log("Current user:", auth.currentUser);
     router.push('/FireLogin');
   });
 };
@@ -24,36 +26,12 @@ const handleLogout = () => {
 
 <template>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <router-link class="navbar-brand" to="/">MyApp</router-link>
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <router-link class="nav-link" to="/">Home</router-link>
-            </li>
-            <li class="nav-item" v-if="!isLoggedIn">
-              <router-link class="nav-link" to="/FireRegister">Register</router-link>
-            </li>
-            <li class="nav-item" v-if="!isLoggedIn">
-              <router-link class="nav-link" to="/FireLogin">Sign In</router-link>
-            </li>
-            <li class="nav-item" v-if="isLoggedIn">
-              <router-link class="nav-link" to="/AddBook">Add Book</router-link>
-            </li>
-            <li class="nav-item" v-if="isLoggedIn">
-              <router-link class="nav-link" to="/AdvancedQuery">Advanced Query</router-link>
-            </li>
-          </ul>
-          <button class="btn btn-outline-danger" v-if="isLoggedIn" @click="handleLogout">Logout</button>
-        </div>
-      </div>
-    </nav>
+    <!-- 2. Use the BHeader component, passing the login state and logout function as props -->
+    <BHeader :is-logged-in="isLoggedIn" @logout="handleLogout" />
   </header>
   
   <main class="container mt-4">
     <router-view />
   </main>
 </template>
-
 

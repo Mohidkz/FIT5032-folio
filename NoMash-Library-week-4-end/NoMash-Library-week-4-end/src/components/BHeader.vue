@@ -1,84 +1,52 @@
 <script setup>
-import { useRouter } from 'vue-router';
-import { auth } from '../auth';
-
-// Define the props this component accepts
 defineProps({
-  isAuthenticated: Boolean
+  isLoggedIn: Boolean
 });
 
-const router = useRouter();
+const emit = defineEmits(['logout']);
 
-const logout = () => {
-  auth.logout();
-  router.push('/login'); // Redirect to login after logout
+const triggerLogout = () => {
+  emit('logout'); 
 };
 </script>
 
 <template>
-  <div class="container">
-    <header class="d-flex justify-content-center py-3">
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <router-link to="/" class="nav-link" active-class="active">Home</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/about" class="nav-link" active-class="active">About</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/FireLogin" class="nav-link" active-class="active">Firebase Login</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/FireRegister" class="nav-link" active-class="active">FireRBase Register</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/GetBookCount" class="nav-link" active-class="active">Get Book Count</router-link>
-        </li>
-        <li v-if="!isAuthenticated" class="nav-item">
-          <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
-        </li>
-
-        <li v-else class="nav-item">
-          <a href="#" class="nav-link" @click.prevent="logout">Logout</a>
-        </li>
-      </ul>
-    </header>
-  </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <router-link class="navbar-brand" to="/">MyApp</router-link>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Home</router-link>
+          </li>
+          <li class="nav-item">
+              <router-link class="nav-link" to="/AddBook">Add Book</router-link>
+          </li>
+          <li class="nav-item">
+              <router-link class="nav-link" to="/GetBookCount">Book Counter</router-link>
+          </li>
+          <template v-if="!isLoggedIn">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/FireRegister">Register</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/FireLogin">Sign In</router-link>
+            </li>
+          </template>
+          <template v-if="isLoggedIn">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/about">About</router-link>
+            </li>
+            
+            <li class="nav-item">
+              <router-link class="nav-link" to="/AdvancedQuery">Advanced Query</router-link>
+            </li>
+            
+          </template>
+        </ul>
+        <button class="btn btn-outline-danger" v-if="isLoggedIn" @click="triggerLogout">Logout</button>
+      </div>
+    </div>
+  </nav>
 </template>
 
-<style scoped>
-.b-example-divider {
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow:
-    inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-}
-
-.form-control-dark {
-  color: #fff;
-  background-color: var(--bs-dark);
-  border-color: var(--bs-gray);
-}
-.form-control-dark:focus {
-  color: #fff;
-  background-color: var(--bs-dark);
-  border-color: #fff;
-  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
-}
-
-.bi {
-  vertical-align: -0.125em;
-  fill: currentColor;
-}
-
-.text-small {
-  font-size: 85%;
-}
-
-.dropdown-toggle {
-  outline: 0;
-}
-</style>
