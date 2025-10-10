@@ -9,6 +9,9 @@ import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 import AddBookView from '@/views/AddBookView.vue'
 import AdvancedQueryView from '@/views/AdvancedQueryView.vue'
 import GetBookCountView from '@/views/GetBookCountView.vue'
+import WeatherView from '@/views/WeatherView.vue'
+import CountBookAPIView from '@/views/CountBookAPIView.vue'
+import GetAllBooksAPIView from '@/views/GetAllBooksAPIView.vue'
 
 const routes = [
   {
@@ -59,6 +62,22 @@ const routes = [
     path: '/GetBookCount',
     name: 'GetBookCount',
     component: GetBookCountView
+  },
+  {
+    path: '/WeatherCheck',
+    name: 'WeatherCheck',
+    component: WeatherView
+  },
+  {
+    path: '/CountBookAPI',
+    name: 'CountBookAPI',
+    component: CountBookAPIView,
+    meta: { hideHeader: true } // This is the key for hiding the header
+  },
+  {
+    path: '/GetAllBooksAPI',
+    name: 'GetAllBooksAPI',
+    component: GetAllBooksAPIView
   }
 ]
 

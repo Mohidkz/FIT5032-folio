@@ -33,13 +33,32 @@ exports.capitalizeBookName = onDocumentCreated("books/{bookId}", (event) => {
   if (name && name !== name.toUpperCase()) {
     console.log(`Capitalizing name for book ID: ${event.params.bookId}`);
     const docRef = event.data.ref;
-
     return docRef.update({
       name: name.toUpperCase(),
     });
   }
-
   // Return null if no update is needed to avoid unnecessary writes.
   return null;
+});
+
+
+// --- NEW FUNCTION 3 (for Task 10.2 - D/HD Level) ---
+// This function will return all documents from the 'books' collection.
+exports.getAllBooks = onRequest((req, res) => {
+  cors(req, res, async () => {
+    try {
+      const booksCollection = admin.firestore().collection("books");
+      const snapshot = await booksCollection.get();
+      const books = [];
+      snapshot.forEach((doc) => {
+        books.push({id: doc.id, ...doc.data()});
+      });
+      // Send the array of books as a JSON response
+      res.status(200).send(books);
+    } catch (error) {
+      console.error("Error getting all books:", error.message);
+      res.status(500).send("Error getting all books");
+    }
+  });
 });
 

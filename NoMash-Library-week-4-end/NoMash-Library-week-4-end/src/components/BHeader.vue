@@ -25,6 +25,15 @@ const triggerLogout = () => {
           <li class="nav-item">
               <router-link class="nav-link" to="/GetBookCount">Book Counter</router-link>
           </li>
+          <li class="nav-item">
+              <router-link class="nav-link" to="/WeatherCheck">Get Weather</router-link>
+          </li>
+          <li class="nav-item">
+              <router-link class="nav-link" to="/CountBookAPI">Book Count API</router-link>
+          </li>
+          <li class="nav-item">
+              <router-link class="nav-link" to="/GetAllBooksAPI">GetAllBookAPI</router-link>
+          </li>
           <template v-if="!isLoggedIn">
             <li class="nav-item">
               <router-link class="nav-link" to="/FireRegister">Register</router-link>

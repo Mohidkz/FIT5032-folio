@@ -1,32 +1,38 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { auth } from './firebase/init.js';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import BHeader from './components/BHeader.vue'; // 1. Import the header component
+import BHeader from './components/BHeader.vue';
 
 const router = useRouter();
+const route = useRoute(); // Get access to the current route information
 const isLoggedIn = ref(false);
 
-// This listener checks the user's auth state when the app loads and whenever it changes
+// This listener checks the user's auth state and updates it
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
-    isLoggedIn.value = !!user; // Sets to true if user exists, false otherwise
+    isLoggedIn.value = !!user;
   });
 });
 
 // This function handles the logout logic
 const handleLogout = () => {
   signOut(auth).then(() => {
-    console.log("User logged out.");
     router.push('/FireLogin');
   });
 };
+
+// This computed property checks if the header should be shown
+// It looks for `meta: { hideHeader: true }` in the current route
+const showHeader = computed(() => {
+  return !route.meta.hideHeader;
+});
 </script>
 
 <template>
-  <header>
-    <!-- 2. Use the BHeader component, passing the login state and logout function as props -->
+  <!-- Use v-if to only render the header when showHeader is true -->
+  <header v-if="showHeader">
     <BHeader :is-logged-in="isLoggedIn" @logout="handleLogout" />
   </header>
   
