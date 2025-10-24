@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 // --- STATE ---
-const apiKey = "fc534a8e82bd6b804e456f3a69a18a70";
+const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const city = ref('');
 const weatherData = ref(null);
 const error = ref(null);
