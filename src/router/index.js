@@ -12,6 +12,7 @@ import GetBookCountView from '@/views/GetBookCountView.vue'
 import WeatherView from '@/views/WeatherView.vue'
 import CountBookAPIView from '@/views/CountBookAPIView.vue'
 import GetAllBooksAPIView from '@/views/GetAllBooksAPIView.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -82,7 +83,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
