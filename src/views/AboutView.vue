@@ -8,7 +8,7 @@
     <p>
       Our mission is to leverage modern web technologies to make knowledge and resources
       more accessible to our community. This page is a protected area, demonstrating a secure
-      members-only section of the application
+      members-only section of the application.
     </p>
   </div>
 </template>
